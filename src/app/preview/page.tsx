@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { Button, Card, Shell } from "@/components/ui";
+import { appCopy } from "@/lib/copy/app";
 import { loadFlow, type FlowSession } from "@/lib/flow-session";
 import {
   getTemplate,
@@ -15,6 +16,7 @@ function PreviewInner() {
   const params = useSearchParams();
   const templateId = params.get("template") ?? "orange-booth-duo";
   const routeKey = (params.get("route") as RouteKey) || "trial";
+  const live = params.get("live") === "1";
   const template = useMemo(() => getTemplate(templateId), [templateId]);
   const [flow, setFlow] = useState<FlowSession | null>(null);
 
@@ -31,15 +33,25 @@ function PreviewInner() {
   }
 
   const route = template.routes[routeKey];
-  const isTrial = routeKey === "trial" && !flow?.unlocked;
-  const seconds = routeDurationSeconds(route, isTrial ? 8 : 15);
-  const watermark = isTrial || Boolean(route.watermark);
+  const isFree = routeKey === "trial" && !flow?.unlocked;
+  const seconds = routeDurationSeconds(route, isFree ? 8 : 15);
+  const videoUrl = live ? flow?.lastOutputUrl : undefined;
 
   return (
     <Shell title="Preview">
       <Card>
         <div className="relative aspect-[9/16] overflow-hidden rounded-xl bg-zinc-800">
-          {flow?.photos?.[0] ? (
+          {videoUrl ? (
+            <video
+              src={videoUrl}
+              className="h-full w-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline
+              controls
+            />
+          ) : flow?.photos?.[0] ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={flow.photos[0]}
@@ -51,24 +63,29 @@ function PreviewInner() {
               Preview placeholder
             </div>
           )}
-          {watermark ? (
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <span className="rotate-[-24deg] text-3xl font-black uppercase tracking-widest text-white/40">
-                Watermark
-              </span>
-            </div>
-          ) : null}
           <div className="absolute bottom-3 left-3 rounded-full bg-black/60 px-3 py-1 text-xs">
-            {isTrial ? `${seconds}s trial · watermark` : `${seconds}s full · no watermark`}
+            {isFree ? `${seconds}s free` : `${seconds}s full`}
           </div>
         </div>
-        <p className="mt-3 text-sm text-zinc-400">Silent playback · add TikTok sound yourself</p>
+        <p className="mt-3 text-sm text-zinc-300">
+          {isFree ? appCopy.preview.freeHu : appCopy.preview.paidHu}
+        </p>
+        <p className="mt-1 text-sm text-zinc-500">
+          {isFree ? appCopy.preview.freeEn : appCopy.preview.paidEn}
+        </p>
       </Card>
 
-      {isTrial ? (
-        <Link href={`/pay?template=${templateId}`} className="block">
-          <Button className="w-full">Unlock full 15s · ${template.retail_usd.toFixed(2)}</Button>
-        </Link>
+      {isFree ? (
+        <>
+          <Link href={`/pay?template=${templateId}`} className="block">
+            <Button className="w-full">{appCopy.preview.unlock}</Button>
+          </Link>
+          <Link href={`/download?template=${templateId}`} className="block">
+            <Button className="w-full" variant="secondary">
+              {appCopy.preview.downloadFree}
+            </Button>
+          </Link>
+        </>
       ) : (
         <Link href={`/download?template=${templateId}`} className="block">
           <Button className="w-full">Continue to download</Button>
@@ -80,7 +97,13 @@ function PreviewInner() {
 
 export default function PreviewPage() {
   return (
-    <Suspense fallback={<Shell title="Preview"><p className="text-sm text-zinc-500">Loading…</p></Shell>}>
+    <Suspense
+      fallback={
+        <Shell title="Preview">
+          <p className="text-sm text-zinc-500">Loading…</p>
+        </Shell>
+      }
+    >
       <PreviewInner />
     </Suspense>
   );

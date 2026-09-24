@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useMemo } from "react";
 import { Button, Card, Shell } from "@/components/ui";
+import { appCopy } from "@/lib/copy/app";
 import { getTemplate } from "@/lib/templates";
 
 function DoneInner() {
@@ -23,8 +24,8 @@ function DoneInner() {
     <Shell title="Done">
       <Card>
         <p className="text-lg font-semibold">Clip ready</p>
-        <p className="mt-2 text-sm text-zinc-400">Share sheet stub · try a Mismatch next.</p>
-        <p className="mt-4 text-sm text-orange-300">{template.copy.mismatch_cta}</p>
+        <p className="mt-2 text-sm text-zinc-300">{appCopy.done.hu}</p>
+        <p className="mt-1 text-sm text-zinc-500">{appCopy.done.en}</p>
       </Card>
       <Link href="/" className="block">
         <Button className="w-full">Back to Home</Button>
@@ -40,7 +41,13 @@ function DoneInner() {
 
 export default function DonePage() {
   return (
-    <Suspense fallback={<Shell title="Done"><p className="text-sm text-zinc-500">Loading…</p></Shell>}>
+    <Suspense
+      fallback={
+        <Shell title="Done">
+          <p className="text-sm text-zinc-500">Loading…</p>
+        </Shell>
+      }
+    >
       <DoneInner />
     </Suspense>
   );

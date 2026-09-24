@@ -10,6 +10,8 @@ export type FlowSession = {
   routeKey: RouteKey;
   unlocked: boolean;
   trialUsedToday: number;
+  lastOutputUrl?: string;
+  lastPredictionId?: string;
 };
 
 const defaultSession = (): FlowSession => ({
@@ -38,5 +40,5 @@ export function saveFlow(patch: Partial<FlowSession>): FlowSession {
 }
 
 export function clearFlowPhotos(): void {
-  saveFlow({ photos: null, unlocked: false });
+  saveFlow({ photos: null, unlocked: false, lastOutputUrl: undefined });
 }

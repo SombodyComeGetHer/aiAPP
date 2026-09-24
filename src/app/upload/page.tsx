@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useState } from "react";
 import { Button, Card, Shell } from "@/components/ui";
+import { appCopy } from "@/lib/copy/app";
 import { saveFlow } from "@/lib/flow-session";
 import { getTemplate } from "@/lib/templates";
 
@@ -50,9 +51,7 @@ function UploadInner() {
   return (
     <Shell title="Upload">
       <Card>
-        <p className="text-sm text-zinc-400">
-          {template.photos.count} frontal photos · zero prompt · {template.aspect}
-        </p>
+        <p className="text-sm text-zinc-400">{appCopy.upload.hint}</p>
         <div className="mt-4 grid grid-cols-2 gap-3">
           {([0, 1] as const).map((i) => (
             <label
@@ -77,7 +76,7 @@ function UploadInner() {
       </Card>
 
       <Button className="w-full" disabled={!ready} onClick={() => start("trial")}>
-        Generate free preview
+        {appCopy.upload.free}
       </Button>
       <Button
         className="w-full"
@@ -85,7 +84,7 @@ function UploadInner() {
         disabled={!ready}
         onClick={() => start("paid_default")}
       >
-        Generate full (${template.retail_usd.toFixed(2)})
+        {appCopy.upload.paid} (${template.retail_usd.toFixed(2)})
       </Button>
     </Shell>
   );
@@ -93,7 +92,13 @@ function UploadInner() {
 
 export default function UploadPage() {
   return (
-    <Suspense fallback={<Shell title="Upload"><p className="text-sm text-zinc-500">Loading…</p></Shell>}>
+    <Suspense
+      fallback={
+        <Shell title="Upload">
+          <p className="text-sm text-zinc-500">Loading…</p>
+        </Shell>
+      }
+    >
       <UploadInner />
     </Suspense>
   );
