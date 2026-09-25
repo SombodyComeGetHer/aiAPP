@@ -27,7 +27,7 @@ function PreviewInner() {
   if (!template) {
     return (
       <Shell title="Preview">
-        <p className="text-sm text-red-400">Unknown template.</p>
+        <p className="text-sm text-red-400">{appCopy.empty.unknownTemplate}</p>
       </Shell>
     );
   }
@@ -64,7 +64,9 @@ function PreviewInner() {
             </div>
           )}
           <div className="absolute bottom-3 left-3 rounded-full bg-black/60 px-3 py-1 text-xs">
-            {isFree ? `${seconds}s free` : `${seconds}s full`}
+            {isFree
+              ? `${appCopy.preview.freeBadgeHu} · ${appCopy.preview.freeBadgeEn}`
+              : `${seconds}s full`}
           </div>
         </div>
         <p className="mt-3 text-sm text-zinc-300">
@@ -100,7 +102,7 @@ export default function PreviewPage() {
     <Suspense
       fallback={
         <Shell title="Preview">
-          <p className="text-sm text-zinc-500">Loading…</p>
+          <p className="text-sm text-zinc-500">{appCopy.empty.loading}</p>
         </Shell>
       }
     >

@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Button, Card, Shell } from "@/components/ui";
+import { appCopy } from "@/lib/copy/app";
 import { compositeDuoFrame } from "@/lib/composite";
 import { loadFlow, saveFlow } from "@/lib/flow-session";
 import {
@@ -29,14 +30,14 @@ function GeneratingInner() {
 
     const flow = loadFlow();
     if (!flow.photos) {
-      setError("Missing photos. Go back to Upload.");
+      setError(appCopy.empty.missingPhotos);
       return;
     }
 
     if (routeKey === "trial") {
       const limit = template.routes.trial.daily_limit ?? 1;
       if (flow.trialUsedToday >= limit) {
-        setError(`${"Ma már elhasználtad az ingyenes kliped. Unlock a full 15s-hez."}`);
+        setError(`${appCopy.limits.freeUsed} ${appCopy.limits.freeUsedEn}`);
         return;
       }
     }
@@ -142,7 +143,7 @@ function GeneratingInner() {
   if (!template) {
     return (
       <Shell title="Generating">
-        <p className="text-sm text-red-400">Unknown template.</p>
+        <p className="text-sm text-red-400">{appCopy.empty.unknownTemplate}</p>
       </Shell>
     );
   }
@@ -173,7 +174,9 @@ function GeneratingInner() {
               />
             </div>
             <p className="mt-2 text-xs text-zinc-500">
-              Live WaveSpeed when key is set; otherwise mock fallback.
+              {status === "mock-fallback"
+                ? `${appCopy.generating.mockHu} · ${appCopy.generating.mockEn}`
+                : `${appCopy.generating.workingHu} · ${appCopy.generating.workingEn}`}
             </p>
           </>
         )}
@@ -196,7 +199,7 @@ export default function GeneratingPage() {
     <Suspense
       fallback={
         <Shell title="Generating">
-          <p className="text-sm text-zinc-500">Loading…</p>
+          <p className="text-sm text-zinc-500">{appCopy.empty.loading}</p>
         </Shell>
       }
     >

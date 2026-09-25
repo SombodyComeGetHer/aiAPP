@@ -21,7 +21,7 @@ function DownloadInner() {
   if (!template) {
     return (
       <Shell title="Download">
-        <p className="text-sm text-red-400">Unknown template.</p>
+        <p className="text-sm text-red-400">{appCopy.empty.unknownTemplate}</p>
       </Shell>
     );
   }
@@ -68,7 +68,7 @@ export default function DownloadPage() {
     <Suspense
       fallback={
         <Shell title="Download">
-          <p className="text-sm text-zinc-500">Loading…</p>
+          <p className="text-sm text-zinc-500">{appCopy.empty.loading}</p>
         </Shell>
       }
     >
