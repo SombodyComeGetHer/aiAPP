@@ -70,7 +70,9 @@ function UploadInner() {
         <p className="text-sm font-medium">
           {isMismatch ? appCopy.home.mismatchTitle : template.name}
         </p>
-        <p className="mt-1 text-sm text-zinc-400">{appCopy.upload.hint}</p>
+        <p className="mt-1 text-sm text-zinc-200">{appCopy.upload.tipHu}</p>
+        <p className="text-sm text-zinc-400">{appCopy.upload.tipEn}</p>
+        <p className="mt-1 text-xs text-zinc-500">{appCopy.upload.hint}</p>
         <div className="mt-4 grid grid-cols-2 gap-3">
           {([0, 1] as const).map((i) => (
             <label
@@ -79,14 +81,32 @@ function UploadInner() {
             >
               {photos[i] ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={photos[i]!} alt={`Photo ${i + 1}`} className="h-full w-full object-cover" />
+                <img
+                  src={photos[i]!}
+                  alt={i === 0 ? appCopy.upload.photo1En : appCopy.upload.photo2En}
+                  className="h-full w-full object-cover"
+                />
               ) : (
-                <span>
-                  {isMismatch
-                    ? i === 0
-                      ? "Pet / owner"
-                      : "Photo 2"
-                    : `Photo ${i + 1}`}
+                <span className="px-2 text-center leading-relaxed">
+                  {i === 0 ? (
+                    <>
+                      {appCopy.upload.photo1Hu}
+                      <br />
+                      {appCopy.upload.photo1En}
+                      {isMismatch ? (
+                        <>
+                          <br />
+                          <span className="text-zinc-600">Pet / owner</span>
+                        </>
+                      ) : null}
+                    </>
+                  ) : (
+                    <>
+                      {appCopy.upload.photo2Hu}
+                      <br />
+                      {appCopy.upload.photo2En}
+                    </>
+                  )}
                 </span>
               )}
               <input
