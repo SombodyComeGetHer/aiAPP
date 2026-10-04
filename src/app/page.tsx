@@ -10,7 +10,7 @@ export default function HomePage() {
   const uploadHref = `/upload?template=${template.template_id}`;
 
   return (
-    <Shell title="Home">
+    <Shell title="Home" tabs>
       {/* #1 Orange Booth Duo */}
       <Card>
         <div className="mb-4 aspect-[9/16] w-full overflow-hidden rounded-xl bg-gradient-to-b from-orange-500/40 to-zinc-900">
@@ -34,7 +34,7 @@ export default function HomePage() {
         <div className="mb-3 flex items-center justify-between">
           <p className="text-xs uppercase tracking-widest text-zinc-400">#2</p>
           <span className="rounded-full bg-orange-500/15 px-2.5 py-0.5 text-[11px] text-orange-300">
-            {appCopy.home.freeBadgeHu}
+            {appCopy.home.freeBadgeHu} · {appCopy.home.freeBadgeEn}
           </span>
         </div>
         <div className="mb-3 aspect-[9/16] max-h-48 w-full overflow-hidden rounded-xl bg-gradient-to-br from-orange-600/30 via-zinc-900 to-zinc-950">
