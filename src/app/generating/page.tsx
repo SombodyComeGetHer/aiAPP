@@ -173,11 +173,21 @@ function GeneratingInner() {
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <p className="mt-2 text-xs text-zinc-500">
-              {status === "mock-fallback"
-                ? `${appCopy.generating.mockHu} · ${appCopy.generating.mockEn}`
-                : `${appCopy.generating.workingHu} · ${appCopy.generating.workingEn}`}
+            <p className="mt-3 text-sm text-zinc-200">
+              {status === "ready" || status === "completed" || status === "succeeded"
+                ? appCopy.generating.readyHu
+                : appCopy.generating.workingHu}
             </p>
+            <p className="mt-1 text-sm text-zinc-400">
+              {status === "ready" || status === "completed" || status === "succeeded"
+                ? appCopy.generating.readyEn
+                : appCopy.generating.workingEn}
+            </p>
+            {status === "mock-fallback" ? (
+              <p className="mt-2 text-xs text-zinc-500">
+                {appCopy.generating.mockHu} · {appCopy.generating.mockEn}
+              </p>
+            ) : null}
           </>
         )}
       </Card>

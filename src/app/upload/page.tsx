@@ -120,6 +120,8 @@ function UploadInner() {
         </div>
       </Card>
 
+      <p className="text-center text-sm text-zinc-300">{appCopy.upload.priceBeforeHu}</p>
+      <p className="text-center text-sm text-zinc-500">{appCopy.upload.priceBeforeEn}</p>
       <Button className="w-full" disabled={!ready} onClick={() => start("trial")}>
         {appCopy.upload.free}
       </Button>
