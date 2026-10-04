@@ -1,6 +1,11 @@
 import type { ButtonHTMLAttributes, PropsWithChildren } from "react";
+import { TabBar } from "@/components/tab-bar";
 
-export function Shell({ children, title }: PropsWithChildren<{ title?: string }>) {
+export function Shell({
+  children,
+  title,
+  tabs = false,
+}: PropsWithChildren<{ title?: string; tabs?: boolean }>) {
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-md flex-col bg-zinc-950 text-zinc-50">
       <header className="sticky top-0 z-10 border-b border-zinc-800 bg-zinc-950/90 px-4 py-3 backdrop-blur">
@@ -8,9 +13,13 @@ export function Shell({ children, title }: PropsWithChildren<{ title?: string }>
         {title ? <h1 className="text-lg font-semibold">{title}</h1> : null}
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4">{children}</main>
-      <footer className="border-t border-zinc-800 px-4 py-3 text-center text-[11px] text-zinc-500">
-        AI-generated preview. EU Art. 50 label.
-      </footer>
+      {tabs ? (
+        <TabBar />
+      ) : (
+        <footer className="border-t border-zinc-800 px-4 py-3 text-center text-[11px] text-zinc-500">
+          AI-generated preview. EU Art. 50 label.
+        </footer>
+      )}
     </div>
   );
 }

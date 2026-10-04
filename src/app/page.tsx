@@ -10,7 +10,7 @@ export default function HomePage() {
   const uploadHref = `/upload?template=${template.template_id}`;
 
   return (
-    <Shell title="Home">
+    <Shell title="Home" tabs>
       {/* #1 Orange Booth Duo */}
       <Card>
         <div className="mb-4 aspect-[9/16] w-full overflow-hidden rounded-xl bg-gradient-to-b from-orange-500/40 to-zinc-900">

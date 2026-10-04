@@ -12,6 +12,16 @@ export const appCopy = {
     freeBadgeEn: "1 real free clip / day (8s)",
     cta: "Create",
   },
+  tabs: {
+    home: "Home",
+    templates: "Sablonok",
+    studios: "Studios",
+    song: "Dal",
+    studiosHu: "Hamarosan. Most csak a booth.",
+    studiosEn: "Coming soon. Booth only for now.",
+    songHu: "A hang a TikTokon marad.",
+    songEn: "The sound stays on TikTok.",
+  },
   upload: {
     tipHu: "2 frontális fotó. Jó fény, nincs napszemüveg.",
     tipEn: "2 front-facing photos. Good light, no sunglasses.",
